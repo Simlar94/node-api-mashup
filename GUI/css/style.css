@@ -1,0 +1,16 @@
+table {
+    background-color: #fff !important;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid;
+    border-color: #ddd;
+    text-align: left;
+    padding: 8px !important;
+}
+
+.table-left, .table-right {
+    margin-top: 8px;
+}
