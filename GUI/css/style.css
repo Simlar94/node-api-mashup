@@ -1,3 +1,7 @@
+body {
+    background-color: grey !important;
+}
+
 table {
     background-color: #fff !important;
     border-collapse: collapse;
@@ -11,6 +15,10 @@ td, th {
     padding: 8px !important;
 }
 
-.table-left, .table-right {
+.table-left, .table-left2, .table-right {
     margin-top: 8px;
+}
+
+.table-right {
+    margin-bottom: 15px;
 }

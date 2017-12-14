@@ -16,6 +16,15 @@ app.use(bodyParser.urlencoded({
 }));
 
 
+// Allow CORS(Cross Origin Resource Sharing.
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "*");
+    next();
+});
+
+
 //GET-method: Get items from my database.
 app.get("/" + dbName, function (req, res) {
     database.allDocs({
@@ -33,8 +42,8 @@ app.get("/" + dbName, function (req, res) {
 //POST-method: Post an item to my database.
 app.post("/" + dbName, function (req, res) {
     database.post(req.body).then(function (result) {
-        res.send(result);
-        //res.redirect("back"); // Redirects user to the previous page.
+        //res.send(result);
+        res.redirect("back"); // Redirects user to the previous page.
     }, function (error) {
         res.status(400).send(error);
     });
