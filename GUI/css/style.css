@@ -18,6 +18,7 @@ background-image: -moz-radial-gradient(center, ellipse farthest-corner, #CC0404 
 table {
     background-color: #fff !important;
     border-collapse: collapse;
+    border-radius: 7px !important;
     width: 100%;
 }
 

@@ -2,6 +2,7 @@
 var express = require('express');
 var pouchDB = require('pouchdb');
 var bodyParser = require('body-parser');
+var serverInfo = require('./custom_modules/server-info.js');
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-// Allow CORS(Cross Origin Resource Sharing.
+// Allow CORS(Cross Origin Resource Sharing). Decides who gets to access your server and what they are able to do.
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -42,7 +43,8 @@ app.get("/" + dbName, function (req, res) {
 //POST-method: Post an item to my database.
 app.post("/" + dbName, function (req, res) {
     database.post(req.body).then(function (result) {
-        //res.send(result);
+        console.log("Posted at: " + dateAndTime());
+
         res.redirect("back"); // Redirects user to the previous page.
     }, function (error) {
         res.status(400).send(error);
@@ -53,8 +55,10 @@ app.post("/" + dbName, function (req, res) {
 // DELETE specific ID from database.
 app.delete("/" + dbName + "/:id", function (req, res) {
     database.get(req.params.id).then(function (result) {
-        return database.remove(result);
+        database.remove(result);
     }).then(function (result) {
+        console.log("Deleted at: " + dateAndTime());
+
         res.send(result);
     });
 
@@ -71,7 +75,8 @@ app.put("/" + dbName + "/:id", function (req, res){
 */
 app.listen(3000, function (error) {
     if (!error) {
-        console.log("Server is running on port 3000.");
+        console.log("Server started on port 3000.")
+        serverInfo();
     } else {
         console.log("Error. Something went wrong.")
     }
