@@ -3,6 +3,8 @@ var express = require('express');
 var pouchDB = require('pouchdb');
 var bodyParser = require('body-parser');
 var serverInfo = require('./custom_modules/server-info.js');
+var dateAndTime = require('./custom_modules/date-and-time.js')
+//var currentIP = require('./custom_modules/ip.js')
 
 var app = express();
 
@@ -43,7 +45,7 @@ app.get("/" + dbName, function (req, res) {
 //POST-method: Post an item to my database.
 app.post("/" + dbName, function (req, res) {
     database.post(req.body).then(function (result) {
-        console.log("Posted at: " + dateAndTime());
+        console.log("\n" + "Posted at: " + dateAndTime());
 
         res.redirect("back"); // Redirects user to the previous page.
     }, function (error) {
@@ -57,7 +59,7 @@ app.delete("/" + dbName + "/:id", function (req, res) {
     database.get(req.params.id).then(function (result) {
         database.remove(result);
     }).then(function (result) {
-        console.log("Deleted at: " + dateAndTime());
+        console.log("\n" + "Deleted at: " + dateAndTime());
 
         res.send(result);
     });
