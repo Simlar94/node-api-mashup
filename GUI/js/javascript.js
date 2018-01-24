@@ -1,7 +1,8 @@
 $(document).ready(function () {
-
+//Skolan: 192.168.48.136
+//Hemma: 192.168.1.10
     var APIUrl = "https://api.nasa.gov/planetary/apod?api_key=9B4Qpd8fTil57gHOvsehQ2dwXnoXva9f4q2FsGUn"
-    var DBUrl = "http://localhost:3000/testdb"; //On Pi: 192.168.48.248:3000/testdb
+    var DBUrl = "http://localhost:3000/testdb"; //On Pi: 192.168.48.248:3000/testdb, http://localhost:3000/testdb, home:http://192.168.1.10:3000/testdb
     var APIDataExists = false;
     var DBDataExists = false;
 
@@ -28,6 +29,8 @@ $(document).ready(function () {
 
     //Handle JSON-data from my own database.
     $.getJSON(DBUrl, function (data) {
+        
+        console.log(data[0].time);
 
 
         for (var i = 0; i < data.length; i++) {
@@ -37,6 +40,7 @@ $(document).ready(function () {
             var date = data[i].date;
             var img = data[i].img;
             var id = data[i]._id;
+            var time = data[i].time;
 
             var tr = $("<tr/>");
             tr.append("<td class='id' style='display:none'>" + id + "</td>");
@@ -45,10 +49,13 @@ $(document).ready(function () {
             tr.append("<td>" + explanation + "</td>");
             tr.append("<td>" + copyright + "</td>");
             tr.append("<td>" + date + "</td>");
-            tr.append("<td width='10%'><button type='button' class='del'>" + "x" + "</button></td>");
+            tr.append("<td>" + time + "</td>");
+            tr.append("<td width='10%'><center><button type='button' class='del'>" + "x" + "</button></center></td>");
             $(".table-right").append(tr);
 
-            $(".del").click(function () {
+        };
+        
+                    $(".del").click(function () {
                 // Get current row's ID.
                 var row = $(this).closest("tr"); // Find the row.
                 var id = row.find(".id").text(); // Find the row's content (ID).
@@ -56,12 +63,11 @@ $(document).ready(function () {
                 // Configure and execute DELETE request.
                 $.ajax({
                     type: "DELETE",
-                    url: "http://localhost:3000/testdb/" + id
+                    url: DBUrl + "/" + id
                 }).then(function () {
                     window.location.reload(); // Reload window after deletion.
                 });
             });
-        };
     });
 
     function APITableCheck() {
